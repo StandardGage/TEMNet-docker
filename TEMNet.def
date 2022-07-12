@@ -1,0 +1,33 @@
+Bootstrap: docker
+From: tensorflow/tensorflow:2.1.2-gpu
+
+%post
+	apt-get update && apt-get install -y git
+	pip install keras==2.3.1 \
+		opencv-python \
+		matplotlib \
+		h5py==2.10 \
+		protobuf==3.2.0
+
+%runscript
+	git clone https://github.com/Perilla-lab/TEMNet.git TEMNet
+	cd TEMNet
+	
+
+%help
+	Singularity container with python3.7
+		tensorflow: 2.1
+		keras: 2.3.1
+		opencv-python
+		matplotlib
+		h5py: 2.10
+		protobuf==3.2
+
+	TEMNet folder
+
+	TO START:
+	: singularity run TEMNet.sif
+	: singularity shell TEMNet.sif
+
+%labels
+	Maintainer "Gage Schuster <gageschu@udel.edu>"
