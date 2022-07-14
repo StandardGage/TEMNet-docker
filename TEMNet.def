@@ -1,17 +1,26 @@
 Bootstrap: docker
 From: tensorflow/tensorflow:2.1.2-gpu
 
+
 %post
-	apt-get update && apt-get install -y git
+	# fixes error with tensorflow image
+	rm /etc/apt/sources.list.d/cuda.list
+	rm /etc/apt/sources.list.d/nvidia-ml.list
+
+	# install updates and basic libraries
+	apt-get update
+	apt-get install -y git \
+		wget \
+		ffmpeg \
+		libsm6 \
+		libxext6
+
+	# install python packages
 	pip install keras==2.3.1 \
 		opencv-python \
 		matplotlib \
 		h5py==2.10 \
 		protobuf==3.2.0
-
-%runscript
-	git clone https://github.com/Perilla-lab/TEMNet.git TEMNet
-	cd TEMNet
 	
 
 %help
@@ -31,3 +40,5 @@ From: tensorflow/tensorflow:2.1.2-gpu
 
 %labels
 	Maintainer "Gage Schuster <gageschu@udel.edu>"
+
+
