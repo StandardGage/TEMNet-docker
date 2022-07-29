@@ -130,7 +130,6 @@ Next, clone our github repo into a location of your choosing
 
 ```
 git clone https://github.com/Perilla-lab/TEMNet.git
-
 ```
 
 Start a singularity container with access to gpus, and access to the TEMNet repo folder:
@@ -138,7 +137,6 @@ Start a singularity container with access to gpus, and access to the TEMNet repo
 ```
 singularity run --nv --bind [path/to/TEMNet-folder]:/mnt
 cd /mnt
-
 ```
 
 ## Singularity - Download Dataset
@@ -149,7 +147,6 @@ Navigate to the dataset and start its download:
 cd TEMNet/dataset
 bash download_dataset.sh
 unzip '\*.zip'
-
 ```
 
 or download manually [here!](https://drive.google.com/drive/folders/1lklUSswSsQAaZCZfJPfc5qT6fNGCJ4xj?usp=sharing). After unzipping files you should have **backbone_dataset/** and **rcnn_dataset_full/** folders containing the data to train an instance classifier and the RCNN.
@@ -158,7 +155,6 @@ Then run the python script:
 
 ```
 python3 augment-images.py
-
 ```
 
 to augment the dataset into ~10k overlapping cropped images (this might take ~1 hour depending on your hardware so feel free to go for a cup of coffee and listen your favourite music while you wait). After augmentation the dataset should be 19GB in size.
@@ -171,7 +167,6 @@ Faster RCNN using a TEMNet backbone (as well as other backbones) can be trained 
 cd ../scripts/rcnn
 python3 train.py -b [backbone_name]
 #provided backbone options are temnet, resnet101, resnet101v2
-
 ```
 
 to train other architectures please provide the proper pretraining weights. Weights for every epoch are stored on **/weights/**.
@@ -184,21 +179,18 @@ Prediction requires trained weights for a given backbone. We have provided weigh
 cd ../../weights/
 bash download_weights.sh
 cd ../scripts/rcnn
-
 ```
 
 The predict.py script in **/scripts/rcnn/** handles prediction for individual images
 
 ```
 python3 predict.py -d 'single' -p '/path/to/image.png' -b [backbone_name]
-
 ```
 
 or batches of images stored in a directory
 
 ```
 python3 predict.py -d 'multiple' -p '/path/to/imgs/' -b [backbone_name]
-
 ```
 
 More options for multi-magnification predictions can be explored with the -h or --help flag.
