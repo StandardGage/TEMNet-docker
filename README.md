@@ -124,34 +124,33 @@ Then, in order to download our container file, run:
 ```
 pip install gdown
 gdown 1hp4YwbEO_4mdnW570WqWMQH4wptFjPCR
-
 ```
 
 Next, clone our github repo into a location of your choosing
 
-'''
+```
 git clone https://github.com/Perilla-lab/TEMNet.git
 
-'''
+```
 
 Start a singularity container with access to gpus, and access to the TEMNet repo folder:
 
-'''
+```
 singularity run --nv --bind [path/to/TEMNet-folder]:/mnt
 cd /mnt
 
-'''
+```
 
 ## Singularity - Download Dataset
 
 Navigate to the dataset and start its download:
 
-'''
+```
 cd TEMNet/dataset
 bash download_dataset.sh
 unzip '\*.zip'
 
-'''
+```
 
 or download manually [here!](https://drive.google.com/drive/folders/1lklUSswSsQAaZCZfJPfc5qT6fNGCJ4xj?usp=sharing). After unzipping files you should have **backbone_dataset/** and **rcnn_dataset_full/** folders containing the data to train an instance classifier and the RCNN.
 
@@ -181,26 +180,26 @@ to train other architectures please provide the proper pretraining weights. Weig
 
 Prediction requires trained weights for a given backbone. We have provided weights and precompiled models for TEMNet, ResNet101 and ResNet101v2 which can be downloaded using the script in the **/weights/** directory.
 
-'''
+```
 cd ../../weights/
 bash download_weights.sh
 cd ../scripts/rcnn
 
-'''
+```
 
 The predict.py script in **/scripts/rcnn/** handles prediction for individual images
 
-'''
+```
 python3 predict.py -d 'single' -p '/path/to/image.png' -b [backbone_name]
 
-'''
+```
 
 or batches of images stored in a directory
 
-'''
+```
 python3 predict.py -d 'multiple' -p '/path/to/imgs/' -b [backbone_name]
 
-'''
+```
 
 More options for multi-magnification predictions can be explored with the -h or --help flag.
 
