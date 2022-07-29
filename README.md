@@ -69,24 +69,29 @@ The training pipeline is currently restricted to tensorflow 2.1, if you wish to 
 You can train the network with any dataset you like. However we provide a dataset of 59 HIV-1 TEM micrographs for training and validating your data. You can download it with the script we provide in the **/dataset/** directory
 
 ```
+cd TEMNet/dataset
 bash download_dataset.sh
 unzip '*.zip'
 ```
 
-or manually [here!](https://drive.google.com/drive/folders/1lklUSswSsQAaZCZfJPfc5qT6fNGCJ4xj?usp=sharing). After unzipping files you should have **backbone_dataset/** and **rcnn_dataset_full/** folders containing the data to train an instance classifier and the RCNN. Then run the python script
+or download manually [here!](https://drive.google.com/drive/folders/1lklUSswSsQAaZCZfJPfc5qT6fNGCJ4xj?usp=sharing). After unzipping files you should have **backbone_dataset/** and **rcnn_dataset_full/** folders containing the data to train an instance classifier and the RCNN.
+
+Then run the python script:
 
 ```
 python3 augment-images.py
 ```
 
-to augment the dataset into ~10k overlapping cropped images (this might take ~1 hour depending on your hardware so feel free to go for a cup of coffee and listen your favourite music while you wait). After augmentation the dataset should be 19GB in size.
+to augment the dataset into ~10k overlapping cropped images (this might take ~1 hour depending on your hardware so feel free to go for a cup of coffee and listen to your favourite music while you wait). After augmentation the dataset should be 19GB in size.
 
 ## Running Training Procedures
 
 Faster RCNN using a TEMNet backbone (as well as other backbones) can be trained using the training script in the **/scripts/rcnn/** directory as
 
 ```
+cd ../scripts/rcnn
 python3 train.py -b [backbone_name]
+#provided backbone options are temnet, resnet101, resnet101v2
 ```
 
 to train other architectures please provide the proper pretraining weights. Weights for every epoch are stored on **/weights/**.
@@ -94,6 +99,12 @@ to train other architectures please provide the proper pretraining weights. Weig
 ## Running Prediction Procedures
 
 Prediction requires trained weights for a given backbone. We have provided weights and precompiled models for TEMNet, ResNet101 and ResNet101v2 which can be downloaded using the script in the **/weights/** directory.
+
+```
+cd ../../weights/
+bash download_weights.sh
+cd ../scripts/rcnn
+```
 
 The predict.py script in **/scripts/rcnn/** handles prediction for individual images
 
@@ -116,7 +127,7 @@ Output prediction images and count histograms are stored in the **/graphs/** dir
 Singularity is a container platform that allows users to create and run containers so that the dependencies
 for software is portable and easily reproducable.
 
-If you're system does not use singularity you can contact your admin or follow the installation steps [here](https://docs.sylabs.io/guides/3.10/admin-guide/installation.html#installation-on-linux)
+If your system does not use singularity you can contact your admin or follow the installation steps [here](https://docs.sylabs.io/guides/3.10/admin-guide/installation.html#installation-on-linux)
 
 To begin, make sure that Singularity and Python are active in your environment.
 Then, in order to download our container file, run:
@@ -132,16 +143,17 @@ Next, clone our github repo into a location of your choosing
 git clone https://github.com/Perilla-lab/TEMNet.git
 ```
 
-Start a singularity container with access to gpus, and access to the TEMNet repo folder:
+Start a singularity container with access to gpus, and access to the TEMNet repo folder
+Make sure the TEMNet.sif file is in the current directory
 
 ```
-singularity run --nv --bind [path/to/TEMNet-folder]:/mnt
+singularity run --nv --bind [path/to/TEMNet-folder]:/mnt TEMNet.sif
 cd /mnt
 ```
 
 ## Singularity - Download Dataset
 
-Navigate to the dataset and start its download:
+You can train the network with any dataset you like. However we provide a dataset of 59 HIV-1 TEM micrographs for training and validating your data. You can download it with the script we provide in the **/dataset/** directory
 
 ```
 cd TEMNet/dataset
@@ -157,7 +169,7 @@ Then run the python script:
 python3 augment-images.py
 ```
 
-to augment the dataset into ~10k overlapping cropped images (this might take ~1 hour depending on your hardware so feel free to go for a cup of coffee and listen your favourite music while you wait). After augmentation the dataset should be 19GB in size.
+to augment the dataset into ~10k overlapping cropped images (this might take ~1 hour depending on your hardware so feel free to go for a cup of coffee and listen to your favourite music while you wait). After augmentation the dataset should be 19GB in size.
 
 ## Singularity - Training Procedure
 
