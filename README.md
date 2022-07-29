@@ -146,7 +146,7 @@ Navigate to the dataset and start its download:
 ```
 cd TEMNet/dataset
 bash download_dataset.sh
-unzip '\*.zip'
+unzip '*.zip'
 ```
 
 or download manually [here!](https://drive.google.com/drive/folders/1lklUSswSsQAaZCZfJPfc5qT6fNGCJ4xj?usp=sharing). After unzipping files you should have **backbone_dataset/** and **rcnn_dataset_full/** folders containing the data to train an instance classifier and the RCNN.
